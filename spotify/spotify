@@ -1,0 +1,10 @@
+sudo /usr/bin/docker run \
+  -t \
+  --rm \
+  -v /home/spotify/config:/home/spotify/.config/spotify \
+  -v /home/spotify/cache:/home/spotify/.cache/spotify \
+  -v /tmp/.X11-unix:/tmp/.X11-unix \
+  -v /tmp/.pulse-socket:/tmp/.pulse-socket \
+  --gpus all \
+  -e DISPLAY=unix:0 \
+  spotify:latest
