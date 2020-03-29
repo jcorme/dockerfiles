@@ -1,10 +1,13 @@
 sudo /usr/bin/docker run \
   -t \
   --rm \
-  -v /home/spotify/config:/home/spotify/.config/spotify \
-  -v /home/spotify/cache:/home/spotify/.cache/spotify \
+  -v $HOME/.docker-data/spotify/config:/home/spotify/.config/spotify \
+  -v $HOME/.docker-data/spotify/cache:/home/spotify/.cache/spotify \
   -v /tmp/.X11-unix:/tmp/.X11-unix \
-  -v /tmp/.pulse-socket:/tmp/.pulse-socket \
+  -v /run/user/$UID/pulse:/run/user/$UID/pulse \
+  -v /run/user/$UID/bus:/run/user/$UID/bus \
   --gpus all \
-  -e DISPLAY=unix:0 \
+  -e DISPLAY=unix$DISPLAY \
+  -e DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$UID/bus \
+  -e PULSE_SERVER=unix:/run/user/$UID/pulse/native \
   spotify:latest

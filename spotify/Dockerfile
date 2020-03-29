@@ -14,14 +14,11 @@ RUN apt-get update \
   && rm -rf /var/lib/apt/lists/*
 
 ENV HOME /home/spotify
-RUN useradd -m -d $HOME -r -u 700 -U spotify \
-  && groupadd -g 995 -r arch-audio \
-  && usermod -aG arch-audio spotify \
+RUN useradd -m -d $HOME -u 4000 -U spotify \
+  && mkdir $HOME/.cache $HOME/.config \
   && chown -R spotify:spotify $HOME 
-
-COPY --chown=spotify:spotify pulse-client.conf /home/spotify/.config/pulse/client.conf
 
 WORKDIR $HOME
 USER spotify
 
-ENTRYPOINT ["dbus-run-session", "spotify"]
+ENTRYPOINT ["spotify"]
