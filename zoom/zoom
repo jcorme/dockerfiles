@@ -1,0 +1,20 @@
+#!/bin/bash
+
+sec_arg=" "
+if [[ "$#" > 0 ]]; then
+  sec_arg="--security-opt seccomp=$1"
+fi
+
+sudo /usr/bin/docker run \
+  -t \
+  --rm \
+  -v /tmp/.X11-unix:/tmp/.X11-unix \
+  -v /run/user/$UID/pulse:/run/user/$UID/pulse \
+  -v $HOME/.docker-data/zoom/zoomus.conf:/home/zoom/.config/zoomus.conf \
+  -v $HOME/.docker-data/zoom/cache:/home/zoom/.cache/zoom \
+  -v $HOME/.docker-data/zoom/dotzoom:/home/zoom/.zoom \
+  --gpus all \
+  -e DISPLAY=unix$DISPLAY \
+  -e PULSE_SERVER=unix:/run/user/$UID/pulse/native \
+  $sec_arg \
+  zoom:latest
